@@ -14,6 +14,7 @@
 		258112BD254317C2007FCE3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 258112BC254317C2007FCE3C /* Assets.xcassets */; };
 		258112C0254317C2007FCE3C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 258112BE254317C2007FCE3C /* LaunchScreen.storyboard */; };
 		258112C925431C50007FCE3C /* ImageLibraryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258112C825431C50007FCE3C /* ImageLibraryHelper.swift */; };
+		258112DA2545D342007FCE3C /* EXIFStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258112D92545D342007FCE3C /* EXIFStats.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		258112BF254317C2007FCE3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		258112C1254317C2007FCE3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		258112C825431C50007FCE3C /* ImageLibraryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryHelper.swift; sourceTree = "<group>"; };
+		258112D92545D342007FCE3C /* EXIFStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EXIFStats.swift; path = ../../ExifReader/EXIFReader/EXIFStats.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				258112B3254317BF007FCE3C /* AppDelegate.swift */,
+				258112D92545D342007FCE3C /* EXIFStats.swift */,
 				258112C825431C50007FCE3C /* ImageLibraryHelper.swift */,
 				258112B5254317BF007FCE3C /* SceneDelegate.swift */,
 				258112B7254317BF007FCE3C /* ViewController.swift */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				258112DA2545D342007FCE3C /* EXIFStats.swift in Sources */,
 				258112B8254317BF007FCE3C /* ViewController.swift in Sources */,
 				258112B4254317BF007FCE3C /* AppDelegate.swift in Sources */,
 				258112B6254317BF007FCE3C /* SceneDelegate.swift in Sources */,

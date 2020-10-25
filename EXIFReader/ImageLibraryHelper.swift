@@ -5,17 +5,19 @@
 //  Created by Gualtiero Frigerio on 23/10/2020.
 //
 
+import Combine
 import Photos
 import UIKit
 
-typealias ExifData = [String:Any]
+typealias EXIFData = [String:Any]
 
-class ImageLibraryHelper:NSObject {
+class ImageLibraryHelper {
     func getExifDataFromLibrary() {
         getPhotos()
     }
     
-    private var exifData:[ExifData] = []
+    private var exifStats = EXIFStats()
+    private var exifKey = "LensModel"
     
     private func getPhotos() {
         let manager = PHImageManager.default()
@@ -32,9 +34,12 @@ class ImageLibraryHelper:NSObject {
                 manager.requestImageDataAndOrientation(for: asset, options: requestOptions) { (data, fileName, orientation, info) in
                     if let data = data,
                        let cImage = CIImage(data: data) {
-                        let exif = cImage.properties["{Exif}"]
-                        print("EXIF Data: \(exif)")
-                        self.exifData.append(cImage.properties)
+                        if let exif = cImage.properties["{Exif}"] as? [String:Any] {
+                            print("EXIF Data: \(exif)")
+                            if let value = exif[self.exifKey] as? String {
+                                self.exifStats.updateWithValue(value)
+                            }
+                        }
                     }
                 }
             }

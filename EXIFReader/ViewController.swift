@@ -11,7 +11,6 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     @IBAction func scanButtonTap(_ sender:Any) {
