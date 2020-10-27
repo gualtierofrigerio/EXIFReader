@@ -15,7 +15,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBAction func scanButtonTap(_ sender:Any) {
         let imageLibraryHelper = ImageLibraryHelper()
-        imageLibraryHelper.getExifDataFromLibrary()
+        imageLibraryHelper.getExifDataFromLibrary(completion: { success, stats in
+            if success {
+                print("exif stats \(stats)")
+            }
+        })
     }
 }
 
