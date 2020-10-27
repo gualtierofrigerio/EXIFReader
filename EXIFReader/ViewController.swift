@@ -17,7 +17,9 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         let imageLibraryHelper = ImageLibraryHelper()
         imageLibraryHelper.getExifDataFromLibrary(completion: { success, stats in
             if success {
-                print("exif stats \(stats)")
+                let tableView = EXIFTableViewController(style: .plain)
+                tableView.sortedRecords = stats.sortedRecords
+                self.present(tableView, animated: true)
             }
         })
     }
