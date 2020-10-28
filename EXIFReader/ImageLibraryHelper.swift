@@ -5,16 +5,31 @@
 //  Created by Gualtiero Frigerio on 23/10/2020.
 //
 
-import Combine
 import Photos
 import UIKit
 
 typealias EXIFData = [String:Any]
 
 class ImageLibraryHelper {
-    func getExifDataFromLibrary(completion:@escaping (Bool, EXIFStats) -> Void) {
+    init() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status != .authorized {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                if status != .authorized {
+                    print("authorisation not granted!")
+                }
+            }
+        }
+    }
+    
+    func getExifDataFromLibrary(limit:Int, completion:@escaping (Bool, EXIFStats) -> Void) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if status != .authorized {
+            completion(false, exifStats)
+            return
+        }
         self.completionHandler = completion
-        getPhotos()
+        getPhotos(limit:limit)
     }
     
     private var completionHandler:((Bool, EXIFStats) -> Void)?
@@ -22,12 +37,13 @@ class ImageLibraryHelper {
     private var exifStats = EXIFStats()
     private var exifKey = "LensModel"
     
-    private func getPhotos() {
+    private func getPhotos(limit:Int) {
         let manager = PHImageManager.default()
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .fastFormat
         let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = limit
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 
         let results: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
@@ -42,11 +58,11 @@ class ImageLibraryHelper {
                             if let value = exif[self.exifKey] as? String {
                                 self.exifStats.updateWithValue(value)
                             }
-                            self.counter -= 1
-                            if self.counter == 0 {
-                                self.completionHandler?(true, self.exifStats)
-                            }
                         }
+                    }
+                    self.counter -= 1
+                    if self.counter == 0 {
+                        self.completionHandler?(true, self.exifStats)
                     }
                 }
             }
