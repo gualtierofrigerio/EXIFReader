@@ -22,14 +22,16 @@ class ImageLibraryHelper {
         }
     }
     
-    func getExifDataFromLibrary(limit:Int, completion:@escaping (Bool, EXIFStats) -> Void) {
+    func getExifDataFromLibrary(limit:Int,
+                                allowNetworkAccess:Bool,
+                                completion:@escaping (Bool, EXIFStats) -> Void) {
         let status = PHPhotoLibrary.authorizationStatus()
         if status != .authorized {
             completion(false, exifStats)
             return
         }
         self.completionHandler = completion
-        getPhotos(limit:limit)
+        getPhotos(limit:limit, allowNetworkAccess: allowNetworkAccess)
     }
     
     private var completionHandler:((Bool, EXIFStats) -> Void)?
@@ -37,11 +39,12 @@ class ImageLibraryHelper {
     private var exifStats = EXIFStats()
     private var exifKey = "LensModel"
     
-    private func getPhotos(limit:Int) {
+    private func getPhotos(limit:Int, allowNetworkAccess:Bool) {
         let manager = PHImageManager.default()
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         requestOptions.deliveryMode = .fastFormat
+        requestOptions.isNetworkAccessAllowed = allowNetworkAccess
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = limit
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -58,7 +61,16 @@ class ImageLibraryHelper {
                             if let value = exif[self.exifKey] as? String {
                                 self.exifStats.updateWithValue(value)
                             }
+                            else {
+                                print("cannot get \(self.exifKey) from exif data - count \(i)")
+                            }
                         }
+                        else {
+                            print("cannot get exif data from image - count \(i)")
+                        }
+                    }
+                    else {
+                        print("cannot get image count \(i)")
                     }
                     self.counter -= 1
                     if self.counter == 0 {
