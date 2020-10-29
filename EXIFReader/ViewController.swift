@@ -19,6 +19,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     private var imageLibraryHelper = ImageLibraryHelper()
     
     @IBOutlet var activityIndicator:UIActivityIndicatorView!
+    @IBOutlet var allowNetworkSwitch:UISwitch!
     @IBOutlet var limitSlider:UISlider!
     @IBOutlet var limitLabel:UILabel!
     
@@ -26,8 +27,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         let limit = Int(limitSlider.value) * stepIncrement
+        let allowNetworkAccess = allowNetworkSwitch.isOn
         DispatchQueue.global(qos: .background).async {
-            self.imageLibraryHelper.getExifDataFromLibrary(limit: limit, completion: { success, stats in
+            self.imageLibraryHelper.getExifDataFromLibrary(limit: limit,
+                                                           allowNetworkAccess: allowNetworkAccess,
+                                                           completion: { success, stats in
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     self.activityIndicator.isHidden = true
