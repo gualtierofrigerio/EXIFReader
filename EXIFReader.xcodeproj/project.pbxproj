@@ -16,6 +16,7 @@
 		258112C925431C50007FCE3C /* ImageLibraryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258112C825431C50007FCE3C /* ImageLibraryHelper.swift */; };
 		258112DA2545D342007FCE3C /* EXIFStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258112D92545D342007FCE3C /* EXIFStats.swift */; };
 		259D9625254867B8009B90AA /* EXIFTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259D9624254867B8009B90AA /* EXIFTableViewController.swift */; };
+		25CB7D4D254B3B9600693E23 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CB7D4C254B3B9600693E23 /* NetworkHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		258112C825431C50007FCE3C /* ImageLibraryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryHelper.swift; sourceTree = "<group>"; };
 		258112D92545D342007FCE3C /* EXIFStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EXIFStats.swift; path = ../../ExifReader/EXIFReader/EXIFStats.swift; sourceTree = "<group>"; };
 		259D9624254867B8009B90AA /* EXIFTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXIFTableViewController.swift; sourceTree = "<group>"; };
+		25CB7D4C254B3B9600693E23 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				259D9624254867B8009B90AA /* EXIFTableViewController.swift */,
 				258112C825431C50007FCE3C /* ImageLibraryHelper.swift */,
 				258112B5254317BF007FCE3C /* SceneDelegate.swift */,
+				25CB7D4C254B3B9600693E23 /* NetworkHelper.swift */,
 				258112B7254317BF007FCE3C /* ViewController.swift */,
 				258112B9254317BF007FCE3C /* Main.storyboard */,
 				258112BC254317C2007FCE3C /* Assets.xcassets */,
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25CB7D4D254B3B9600693E23 /* NetworkHelper.swift in Sources */,
 				258112DA2545D342007FCE3C /* EXIFStats.swift in Sources */,
 				258112B8254317BF007FCE3C /* ViewController.swift in Sources */,
 				258112B4254317BF007FCE3C /* AppDelegate.swift in Sources */,

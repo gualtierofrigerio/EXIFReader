@@ -5,6 +5,7 @@
 //  Created by Gualtiero Frigerio on 23/10/2020.
 //
 
+import Combine
 import UIKit
 
 class ViewController: UIViewController, UINavigationControllerDelegate {
@@ -14,9 +15,15 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         super.viewDidLoad()
         updateLabelWithSlider(limitSlider)
         activityIndicator.isHidden = true
+        
+        wifiAvailable = networkHelper.wifiAvailable
+            .receive(on: RunLoop.main)
+            .assign(to: \.isEnabled, on: allowNetworkSwitch)
     }
     
     private var imageLibraryHelper = ImageLibraryHelper()
+    private var networkHelper = NetworkHelper()
+    private var wifiAvailable:AnyCancellable?
     
     @IBOutlet var activityIndicator:UIActivityIndicatorView!
     @IBOutlet var allowNetworkSwitch:UISwitch!
@@ -27,7 +34,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         let limit = Int(limitSlider.value) * stepIncrement
-        let allowNetworkAccess = allowNetworkSwitch.isOn
+        let allowNetworkAccess = allowNetworkSwitch.isOn && allowNetworkSwitch.isEnabled
         DispatchQueue.global(qos: .background).async {
             self.imageLibraryHelper.getExifDataFromLibrary(limit: limit,
                                                            allowNetworkAccess: allowNetworkAccess,
