@@ -5,33 +5,63 @@
 //  Created by Gualtiero Frigerio on 29/10/2020.
 //
 
-import Foundation
-import Network
 import Combine
+import Network
 
-class NetworkHelper {
-    var wifiAvailable:AnyPublisher<Bool, Never> {
-        $isWifiAvailable.eraseToAnyPublisher()
-    }
+@available(iOS 13.0, *)
+enum NetworkStatusHelperConnectionType {
+    case any
+    case cellular
+    case wifi
+    case wired
     
-    init() {
-        monitor.pathUpdateHandler = { path in
-            self.updateWifiAvailability(status: path.status)
+    func toInterfaceType() -> NWInterface.InterfaceType {
+        var interfaceType:NWInterface.InterfaceType = .other
+        switch self {
+        case .any:
+            interfaceType = .other
+        case .cellular:
+            interfaceType = .cellular
+        case .wifi:
+            interfaceType = .wifi
+        case .wired:
+            interfaceType = .wiredEthernet
         }
-        self.updateWifiAvailability(status: monitor.currentPath.status)
-        monitor.start(queue: DispatchQueue.main)
+        return interfaceType
+    }
+}
+
+@available(iOS 13.0, *)
+class NetworkStatusHelper {
+    var connectionAvailable:AnyPublisher<Bool, Never> {
+        $isConnectionAvailable.eraseToAnyPublisher()
     }
     
-    private let monitor = NWPathMonitor(requiredInterfaceType: .cellular)
-    @Published private var isWifiAvailable = false
-    
-    private func updateWifiAvailability(status:NWPath.Status) {
-        print("updateWifiAvailability status \(status)")
-        if status == .satisfied {
-            self.isWifiAvailable = true
+    init(connectionType:NetworkStatusHelperConnectionType = .any) {
+        isConnectionAvailable = false
+        if connectionType == .any {
+            monitor = NWPathMonitor()
         }
         else {
-            self.isWifiAvailable = false
+            monitor = NWPathMonitor(requiredInterfaceType: connectionType.toInterfaceType())
+        }
+        requiredType = connectionType
+        monitor.pathUpdateHandler = { path in
+            self.updatePath(path)
+        }
+        monitor.start(queue: DispatchQueue.global(qos: .background))
+    }
+    
+    @Published private var isConnectionAvailable:Bool
+    private var monitor:NWPathMonitor
+    private var requiredType:NetworkStatusHelperConnectionType
+    
+    private func updatePath(_ path:NWPath) {
+        if path.status == .satisfied {
+            isConnectionAvailable = true
+        }
+        else {
+            isConnectionAvailable = false
         }
     }
 }

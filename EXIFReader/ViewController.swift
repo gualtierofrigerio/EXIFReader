@@ -16,13 +16,13 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         updateLabelWithSlider(limitSlider)
         activityIndicator.isHidden = true
         
-        wifiAvailable = networkHelper.wifiAvailable
+        wifiAvailable = networkHelper.connectionAvailable
             .receive(on: RunLoop.main)
             .assign(to: \.isEnabled, on: allowNetworkSwitch)
     }
     
     private var imageLibraryHelper = ImageLibraryHelper()
-    private var networkHelper = NetworkHelper()
+    private var networkHelper = NetworkStatusHelper(connectionType: .cellular)
     private var wifiAvailable:AnyCancellable?
     
     @IBOutlet var activityIndicator:UIActivityIndicatorView!
