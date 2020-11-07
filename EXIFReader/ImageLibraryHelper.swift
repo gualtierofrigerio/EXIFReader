@@ -40,17 +40,18 @@ class ImageLibraryHelper {
     private var exifKey = "LensModel"
     
     private func getPhotos(limit:Int, allowNetworkAccess:Bool) {
-        let manager = PHImageManager.default()
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.deliveryMode = .fastFormat
-        requestOptions.isNetworkAccessAllowed = allowNetworkAccess
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = limit
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-
         let results: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
         if results.count > 0 {
+            let manager = PHImageManager.default()
+            let requestOptions = PHImageRequestOptions()
+            requestOptions.isSynchronous = true
+            requestOptions.deliveryMode = .fastFormat
+            requestOptions.isNetworkAccessAllowed = allowNetworkAccess
+            
             counter = results.count
             for i in 0..<results.count {
                 let asset = results.object(at: i)
