@@ -7,3 +7,5 @@ When you run the app it will ask to access the library and will scan for picture
 The slider on the top let you specify a limit, the pictures are in order of date so you get the most recent ones. 
 
 If you have pictures on the cloud and optimise space on the iPhone, you need to toggle the network switch on. I suggest doing so in Wi-Fi as pictures will be downloaded from the network.
+
+See my article http://www.gfrigerio.com/read-exif-data-of-pictures/
