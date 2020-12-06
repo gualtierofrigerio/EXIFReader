@@ -38,17 +38,17 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         DispatchQueue.global(qos: .background).async {
             self.imageLibraryHelper.getExifDataFromLibrary(limit: limit,
                                                            allowNetworkAccess: allowNetworkAccess,
-                                                           completion: { success, stats in
+                                                           completion: { result in
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     self.activityIndicator.isHidden = true
-                    if success {
+                    switch result {
+                    case .success(let stats):
                         let tableView = EXIFTableViewController(style: .plain)
                         tableView.sortedRecords = stats.sortedRecords
                         self.present(tableView, animated: true)
-                    }
-                    else {
-                        let alert = UIAlertController(title: "Error", message: "Cannot get exif data", preferredStyle: .alert)
+                    case .failure(let error):
+                        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                         self.present(alert, animated: true)
                     }

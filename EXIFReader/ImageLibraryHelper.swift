@@ -24,17 +24,20 @@ class ImageLibraryHelper {
     
     func getExifDataFromLibrary(limit:Int,
                                 allowNetworkAccess:Bool,
-                                completion:@escaping (Bool, EXIFStats) -> Void) {
+                                completion:@escaping (Result<EXIFStats, Error>) -> Void) {
         let status = PHPhotoLibrary.authorizationStatus()
         if status != .authorized {
-            completion(false, exifStats)
+            let error = NSError(domain: "EXIIFReader",
+                                code: 0,
+                                userInfo: ["Message" : "not authorized to access library"])
+            completion(.failure(error))
             return
         }
         self.completionHandler = completion
         getPhotos(limit:limit, allowNetworkAccess: allowNetworkAccess)
     }
     
-    private var completionHandler:((Bool, EXIFStats) -> Void)?
+    private var completionHandler:((Result<EXIFStats, Error>) -> Void)?
     private var counter = 0
     private var exifStats = EXIFStats()
     private var exifKey = "LensModel"
@@ -75,7 +78,7 @@ class ImageLibraryHelper {
                     }
                     self.counter -= 1
                     if self.counter == 0 {
-                        self.completionHandler?(true, self.exifStats)
+                        self.completionHandler?(.success(self.exifStats))
                     }
                 }
             }
